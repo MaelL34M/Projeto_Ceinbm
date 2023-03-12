@@ -1,0 +1,32 @@
+{% extends 'baseoficial.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block titulo %}Turnos{% endblock %}
+{% block section %}
+{% bootstrap_messages message %}
+
+<h1>Turnos</h1>
+<form>
+    <div>
+        <input class="form-control-sm" type="text" name="procurar" id="procurar" placeholder="Procurar" value="{{request.GET.procurar}}">
+        <button class="btn btn-primary" type="submit">Procurar</button>
+    </div>
+</form>
+<div class="todos-usuarios">
+    {% if turnos %}
+    {% for turno in turnos %}
+    <a href="{% url 'detalhes_turno' turno.id %}">
+        <div class="usuarios">
+            <h3>{{turno.nome}}</h3>
+        </div>
+    </a>
+    {% endfor %}
+    {% else %}
+    <p>Nada cadastrado</p>
+    {% endif %}
+    
+</div>
+{% if perms.auth.modificar_turno %}
+<a class="btn btn-primary" href="{% url 'cad_turno' %}"> Cadastrar novo turno</a>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+Cadastrar docente
+{% endblock %}
+{% block section %}
+<form action="{% url 'cad_docente' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% bootstrap_messages message %}
+    <h1>Cadastrar docente</h1>
+    {% bootstrap_form form %}
+    <button class="btn btn-secondary" type="submit">Cadastrar</button>
+</form>
+<br>
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'js/cadastro.js' %}"></script>
+{% endblock %}

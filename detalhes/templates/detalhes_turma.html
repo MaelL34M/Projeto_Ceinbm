@@ -1,0 +1,88 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+{{turma.nome}}
+{% endblock %}
+{% block section %}
+<h1>Turma: {{turma.nome}}</h1>
+{% bootstrap_messages message %}
+<div>
+    <div>
+        <div>
+            <strong>Dados:</strong>
+            <p>Quantidade de discentes nessa turma: {{num_discentes}}</p>
+        </div>
+        {% if perms.auth.modificar_turma %}
+        <div>
+            <a class="btn btn-info" href="{% url 'edt_turma' turma.id %}">Editar dados</a>
+            {% if perms.auth.apagar_turma %}
+            <a class="btn btn-danger" href="{% url 'del_turma' turma.id %}">Apagar</a>
+            {% endif %}
+            <hr>
+        </div>
+        {% endif %}
+        {% if perms.auth.fazer_chamada %}
+        <a class="btn btn-info" href="{% url 'fazer_chamada' turma.id %}">Fazer chamada</a>
+        {% endif %}
+        {% if perms.auth.ver_chamadas %}
+        <a class="btn btn-info" href="{% url 'mostrar_chamadas' turma.id %}">Ver todas as chamadas</a>
+        {% endif %}
+        {% if perms.auth.situacao_discentes %}
+        <hr>
+        <p>Para verificar as situações de todos os discentes da turma clique no botão abaixo.</p>
+        <p>Disponível apenas no final do ano letivo.</p>
+        <a class="btn btn-info" href="{% url 'situacao_discentes' turma.id %}">Conclusão final de ano</a>
+        {% endif %}
+        <hr>
+        <div>
+            <strong>Discentes matriculados nessa turma:</strong>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome do Discente</th>
+                        <th>Situação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for discente in discentes %}
+                    <tr>
+                        <td><a href="{% url 'detalhes_discente' discente.id %}">{{discente.nome}}</a></td>
+                        {% if discente.situacao == 'Aprovado' %}
+                        <td>
+                            <p class="status status-success">{{discente.situacao}}</p>
+                        </td>
+                        {% elif discente.situacao == 'Aprovado pelo Conselho' %}
+                        <td>
+                            <p class="status status-success">{{discente.situacao}}</p>
+                        </td>
+                        {% elif discente.situacao == 'Reprovado pelo Conselho' %}
+                        <td>
+                            <p class="status status-danger">{{discente.situacao}}</p>
+                        </td>
+                        {% elif discente.situacao == 'Reprovado' %}
+                        <td>
+                            <p class="status status-danger">{{discente.situacao}}</p>
+                        </td>
+                        {% elif discente.situacao == 'Reprovado por falta' %}
+                        <td>
+                            <p class="status status-danger">{{discente.situacao}}</p>
+                        </td>
+                        {% elif discente.situacao == 'Prova Final' %}
+                        <td>
+                            <p class="status status-warning">{{discente.situacao}}</p>
+                        </td>
+                        {% else %}
+                        <td>
+                            <p class="status status-primary">{{discente.situacao}}</p>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    {% endblock %}

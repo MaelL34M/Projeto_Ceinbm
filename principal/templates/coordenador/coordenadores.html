@@ -1,0 +1,70 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}Coordenadores{% endblock %}
+{% block section %}
+{% bootstrap_messages message %}
+<h1>Coordenadores</h1>
+<form>
+    <div>
+        <input class="form-control-sm" type="text" name="procurar" id="procurar" placeholder="Procurar" value="{{request.GET.procurar}}">
+        <button class="btn btn-primary" type="submit">Procurar</button>
+    </div>
+</form>
+<div class="todos-usuarios">
+    {% if coordenadores %}
+    {% for coordenador in coordenadores %}
+    <a href="{% url 'detalhes_coordenador' coordenador.id %}">
+        <div class="usuarios">
+            {% if coordenador.foto %}
+            <img class="foto-usuario" src="{{coordenador.foto.url}}" alt="Foto do coordenador">
+            {% else %}
+            <img class="foto-usuario" src="{% static 'img/avatars/comum.jpg' %}" alt="Foto do usuario padrão">
+            {% endif %}
+            <p>{{coordenador.user.first_name}}</p>
+        </div>
+    </a>
+    {% endfor %}
+    {% else %}
+    <p>Nada cadastrado</p>
+    {% endif %}   
+</div>
+<div>
+    <nav>
+        <ul class="pagination">
+            {% if coordenadores.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'mostrar_coordenador' %}?page={{coordenadores.previous_page_number}}"
+                    tabindex="-1">Anterior</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Anterior</a>
+            </li>
+            {% endif %}
+            {% for num in coordenadores.paginator.page_range %}
+            {% if num == coordenadores.number %}
+            <li class="page-item active"><a class="page-link" href="#}">{{num}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="{% url 'mostrar_coordenador' %}?page={{num}}">{{num}}</a></li>
+            {% endif %}
+
+            {% endfor %}
+
+            {% if coordenadores.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'mostrar_coordenador' %}?page={{coordenadores.next_page_number}}"
+                    tabindex="-1">Próximo</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Próximo</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% if perms.auth.modificar_coordenador %}
+<a class="btn btn-primary" href="{% url 'cad_coordenador' %}"> Cadastrar novo coordenador</a>
+{% endif %}
+{% endblock %}

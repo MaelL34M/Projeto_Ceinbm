@@ -1,0 +1,22 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+Cadastrar turno
+{% endblock %}
+{% block section %}
+<form action="{% url 'cad_turno' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% bootstrap_messages message %}
+    <h1>Cadastrar turno</h1>
+    {% bootstrap_form form %}
+    <button class="btn btn-secondary" type="submit">Cadastrar</button>
+</form>
+<br>
+<a class="btn btn-secondary" href="{% url 'cad_turnos_prontos' %}">Cadastrar turnos pré-cadastrados</a>
+<p>Ao clicar no botão acima serão cadastrados os turnos:
+    Matutino,Vespertino e Noturno.
+</p>
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'js/cadastro.js' %}"></script>
+{% endblock %}

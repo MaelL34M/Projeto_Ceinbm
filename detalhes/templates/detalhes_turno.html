@@ -1,0 +1,51 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+{{turno.nome}}
+{% endblock %}
+{% block section %}
+<h1>Turno: {{turno.nome}}</h1>
+{% bootstrap_messages message %}
+<div>
+    <div>
+        <div>
+            <strong>Dados:</strong>
+            <p>Quantidade de turmas nesse turno: {{num_turmas}}</p>
+            <p>Quantidade de discentes nesse turno: {{num_discentes}}</p>
+        </div>
+        {% if perms.auth.modificar_turno %}
+        <div>
+            <a class="btn btn-info" href="{% url 'edt_turno' turno.id %}">Editar dados</a>
+            {% if perms.auth.apagar_turno %}
+            <a class="btn btn-danger" href="{% url 'del_turno' turno.id %}">Apagar</a>
+            {% endif %}
+        </div>
+        {% endif %}
+        <div>
+            <strong>Turmas cadastradas nesse turno:</strong>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Turma</th>
+                        {% if perms.auth.fazer_chamada %}
+                        <th>Fazer Chamada</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turma in turmas %}
+                    <tr>
+                        <td><a href="{% url 'detalhes_turma' turma.id %}">{{turma.nome}}</a></td>
+                        {% if perms.auth.fazer_chamada %}
+                        <td><a href="{% url 'fazer_chamada' turma.id %}">Selecionar</a></td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+   
+    {% endblock %}

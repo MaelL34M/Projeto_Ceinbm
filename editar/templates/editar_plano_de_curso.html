@@ -1,0 +1,15 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+Editar plano de curso
+{% endblock %}
+{% block section %}
+<form action="{% url 'edt_plano_de_curso' id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% bootstrap_messages message %}
+    <h1>Editar plano de curso</h1>
+    {% bootstrap_form form %}
+    <button class="btn btn-secondary" type="submit">Salvar</button>
+</form>
+<br>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+{{docente.user.first_name}}
+{% endblock %}
+{% block section %}
+<h1>Docente</h1>
+{% bootstrap_messages message %}
+<div class="d-flex flex-wrap">
+    <div>
+        <div>
+            {% if docente.foto %}
+            <img id="mostrarfoto" src="{{docente.foto.url}}" alt="Foto do docente">
+            {% else %}
+            <img id="mostrarfoto" src="{% static 'img/avatars/comum.jpg' %}" alt="Foto de usuario padrão">
+            {% endif %}
+        </div>
+    </div>
+    <div id="informacoes">
+        <div>
+            <strong>Dados:</strong>
+            <p>Nome completo: {{docente.user.get_full_name}}</p>
+            <hr>
+            <p>CPF: {{docente.cpf}}</p>
+            <hr>
+            <p>RG: {{docente.rg}}</p>
+            <hr>
+            <p>Email: {{docente.user.email}}</p>
+            <hr>
+            <p>Data de nascimento: {{docente.data_de_nascimento}}</p>
+            <hr>
+        </div>
+    </div>
+
+</div>
+<br>
+{% if perms.auth.modificar_docente %}
+<div>
+    <a class="btn btn-info" href="{% url 'edt_docente' docente.id %}">Editar dados</a>
+    {% if perms.auth.apagar_docente %}
+    <a class="btn btn-danger" href="{% url 'del_docente' docente.id %}">Apagar</a>
+    {% endif %}
+</div>
+{% endif %}
+<div>
+    <strong>Disciplina que o docente atua:</strong>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Disciplina</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for disciplina in disciplinas %}
+            <tr>
+                <td><a href="{% url 'detalhes_disciplina' disciplina.id %}">{{disciplina.nome}}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

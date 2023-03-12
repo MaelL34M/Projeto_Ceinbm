@@ -1,0 +1,46 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+{{coordenador.user.first_name}}
+{% endblock %}
+{% block section %}
+<h1>Coordenador(a)</h1>
+{% bootstrap_messages message %}
+<div class="d-flex flex-wrap">
+    <div>
+        <div>
+            {% if coordenador.foto %}
+            <img id="mostrarfoto" src="{{coordenador.foto.url}}" alt="Foto do coordenador">
+            {% else %}
+            <img id="mostrarfoto" src="{% static 'img/avatars/comum.jpg' %}" alt="Foto de usuario padrão">
+            {% endif %}
+        </div>
+    </div>
+    <div id="informacoes">
+        <div>
+            <strong>Dados:</strong>
+            <p>Nome completo: {{coordenador.user.get_full_name}}</p>
+            <hr>
+            <p>CPF: {{coordenador.cpf}}</p>
+            <hr>
+            <p>RG: {{coordenador.rg}}</p>
+            <hr>
+            <p>Email: {{coordenador.user.email}}</p>
+            <hr>
+            <p>Data de nascimento: {{coordenador.data_de_nascimento}}</p>
+            <hr>
+        </div>
+    </div>
+
+</div>
+<br>
+{% if perms.auth.modificar_coordenador %}
+<div>
+    <a class="btn btn-info" href="{% url 'edt_coordenador' coordenador.id %}">Editar dados</a>
+    {% if perms.auth.apagar_coordenador %}
+    <a class="btn btn-danger" href="{% url 'del_coordenador' coordenador.id %}">Apagar</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends 'baseoficial.html' %}
+{% load bootstrap4 %}
+{% block titulo %}Home{% endblock %}
+{% block section %}
+{% bootstrap_messages message %}
+<p>Bem-vindo (a), {{request.user.first_name}}!</p>
+{% endblock %}

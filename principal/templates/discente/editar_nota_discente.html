@@ -1,0 +1,17 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+Editar nota
+{% endblock %}
+{% block section %}
+<form action="{% url 'edt_nota_discente' nota.disciplina.id nota.discente.id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% bootstrap_messages message %}
+    <h1>Editar informações</h1>
+    <p>Discente: {{nota.discente.user.get_full_name}}</p>
+    <p>Disciplina: {{nota.disciplina.nome}}</p>
+    {% bootstrap_form form %}
+    <button class="btn btn-secondary" type="submit">Salvar</button>
+</form>
+<br>
+{% endblock %}

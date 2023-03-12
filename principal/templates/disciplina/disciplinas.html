@@ -1,0 +1,68 @@
+{% extends 'baseoficial.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block titulo %}Disciplinas{% endblock %}
+{% block section %}
+{% bootstrap_messages message %}
+
+<h1>Disciplinas</h1>
+<form>
+    <div>
+        <input class="form-control-sm" type="text" name="procurar" id="procurar" placeholder="Procurar" value="{{request.GET.procurar}}">
+        <button class="btn btn-primary" type="submit">Procurar</button>
+    </div>
+</form>
+<div class="todos-usuarios">
+    {% if disciplinas %}
+    {% for disciplina in disciplinas %}
+    <a href="{% url 'detalhes_disciplina' disciplina.id %}">
+        <div class="usuarios">
+            <h3>{{disciplina.nome}}</h3>
+            
+        </div>
+    </a>
+    {% endfor %}
+    {% else %}
+    <p>Nada cadastrado</p>
+    {% endif %}
+    
+</div>
+<div>
+    <nav>
+        <ul class="pagination">
+            {% if disciplinas.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'mostrar_disciplina' %}?page={{disciplinas.previous_page_number}}"
+                    tabindex="-1">Anterior</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Anterior</a>
+            </li>
+            {% endif %}
+            {% for num in disciplinas.paginator.page_range %}
+            {% if num == disciplinas.number %}
+            <li class="page-item active"><a class="page-link" href="#}">{{num}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="{% url 'mostrar_disciplina' %}?page={{num}}">{{num}}</a></li>
+            {% endif %}
+
+            {% endfor %}
+
+            {% if disciplinas.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'mostrar_disciplina' %}?page={{disciplinas.next_page_number}}"
+                    tabindex="-1">Próximo</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Próximo</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% if perms.auth.modificar_disciplina %}
+<a class="btn btn-primary" href="{% url 'cad_disciplina' %}"> Cadastrar nova disciplina</a>
+{% endif %}
+{% endblock %}

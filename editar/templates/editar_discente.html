@@ -1,0 +1,15 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+Editar discente
+{% endblock %}
+{% block section %}
+<form action="{% url 'edt_discente' id %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% bootstrap_messages message %}
+    <h1>Editar discente</h1>
+    {% bootstrap_form form %}
+    <button class="btn btn-secondary" type="submit">Salvar</button>
+</form>
+<br>
+{% endblock %}

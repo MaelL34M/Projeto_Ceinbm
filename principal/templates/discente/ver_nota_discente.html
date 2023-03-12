@@ -1,0 +1,60 @@
+{% extends 'baseoficial.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block titulo %}Detalhes nota{% endblock %}
+{% block section %}
+{% bootstrap_messages message %}
+
+<div class="d-flex flex-wrap">
+    <div>
+        <div>
+            {% if nota.discente.foto %}
+            <img id="mostrarfoto" src="{{nota.discente.foto.url}}" alt="Foto do discente">
+            {% else %}
+            <img id="mostrarfoto" src="{% static 'img/avatars/comum.jpg' %}" alt="Foto de usuario padrão">
+            {% endif %}
+        </div>
+    </div>
+    <div id="informacoes">
+        <div>
+            <strong>Dados do discente:</strong>
+            <p>Nome completo: {{nota.discente.user.get_full_name}}</p>
+            <hr>
+            <p>Turma: {{nota.discente.turma.nome}}</p>
+            <hr>
+            <p>Componente Curricular: {{nota.disciplina.nome}}</p>
+            <hr>
+        </div>
+        <div>
+            <p>Quantidade de faltas: {{nota.faltas}}</p>
+            <hr>
+            <p>Primeira nota: {{nota.nota1}}</p>
+            <hr>
+            <p>Segunda nota: {{nota.nota2}}</p>
+            <hr>
+            <p>Terceira nota: {{nota.nota3}}</p>
+            <hr>
+            <p>Média: {{nota.media}}</p>
+            <hr>
+            {% if nota.situacao == 'Aprovado' %}
+            <p class="status-success">{{nota.situacao}}</p>
+            {% elif nota.situacao == 'Reprovado' %}
+            <p class="status-danger">{{nota.situacao}}</p>
+            {% elif nota.situacao == 'Reprovado por falta' %}
+            <p class="status-danger">{{nota.situacao}}</p>
+            {% elif nota.situacao == 'Prova Final' %}
+            <p class="status-warning">{{nota.situacao}}</p>
+            {% else %}
+            <p class="status-primary">{{nota.situacao}}</p>
+            {% endif %}
+            <hr>
+        </div>
+    </div>
+</div>
+<hr>
+<div>
+    <strong>Observações que o professor fez:</strong>
+    <p>{{nota.obs}}</p>
+</div>
+
+{% endblock %}

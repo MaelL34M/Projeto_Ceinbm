@@ -1,0 +1,204 @@
+{% load static %}
+{% load bootstrap4 %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/principal.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>{% block titulo %}{% endblock %}</title>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <div id="menu-principal">
+        <aside id="menu-lateral" class="fechar abrir">
+            <a href="{% url 'home' %}">
+                <img class="logoSidebar" src="{% static 'img/logo_ivani.png' %}"
+                    alt="Logo do Centro Educacional Ivani Neri Bueno Marques">
+                <h1>CEINBM</h1>
+            </a>
+
+
+            <ul>
+                <span>Páginas:</span>
+                <li style="cursor: pointer;" id="menu-cadastrados">Ensino <svg xmlns="http://www.w3.org/2000/svg"
+                        width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
+                    </svg></li>
+                <div id="menuCadastrados" class="fechado">
+                    {% if perms.auth.ver_diretor %}
+                    <li class="itens"><a href="{% url 'mostrar_diretor' %}">Diretores</a></li>
+                    <hr>
+                    {% endif %}
+                    {% if perms.auth.ver_vicediretor %}
+                    <li class="itens"><a href="{% url 'mostrar_vicediretor' %}">Vice-Diretores</a></li>
+                    <hr>
+                    {% endif %}
+                    {% if perms.auth.ver_coordenador %}
+                    <li class="itens"><a href="{% url 'mostrar_coordenador' %}">Coordenadores</a></li>
+                    <hr>
+                    {% endif %}
+                    {% if perms.auth.ver_secretario %}
+                    <li class="itens"><a href="{% url 'mostrar_secretario' %}">Secretários</a></li>
+                    <hr>
+                    {% endif %}
+                    {% if perms.auth.ver_funcionario %}
+                    <li class="itens"><a href="{% url 'mostrar_funcionario' %}">Funcionários</a></li>
+                    <hr>
+                    {% endif %}
+                    {% if perms.auth.ver_docente %}
+                    <li class="itens"><a href="{% url 'mostrar_docente' %}">Docentes</a></li>
+                    <hr>
+                    {% endif %}
+                    {% if perms.auth.ver_discente %}
+                    <li class="itens"><a href="{% url 'mostrar_discente' %}">Discentes</a></li>
+                    <hr>
+                    {% endif %}
+                    {% if perms.auth.ver_notas_aluno %}
+                    <li class="itens">
+                        <a href="{% url 'mostrar_notas' %}">Ver notas</a>
+                    </li>
+                    <hr>
+                    {% endif %}
+                </div>
+                <hr>
+                {% if perms.auth.ver_turno %}
+                <li class="itens"><a href="{% url 'mostrar_turno' %}">Turno</a></li>
+                <hr>
+                {% endif %}
+                {% if perms.auth.ver_turma %}
+                <li class="itens">
+                    <a href="{% url 'mostrar_turma' %}">Turmas</a>
+                </li>
+                <hr>
+                {% endif %}
+                {% if perms.auth.ver_disciplina %}
+                <li class="itens">
+                    <a href="{% url 'mostrar_disciplina' %}">Disciplinas</a>
+                </li>
+                <hr>
+                {% endif %}
+                {% if perms.auth.ver_planejamento_anual %}
+                <li class="itens">
+                    <a href="{% url 'mostrar_planejamento_anual' %}">Planejamentos anuais</a>
+                </li>
+                <hr>
+                {% endif %}
+                {% if perms.auth.ver_plano_de_aula %}
+                <li class="itens">
+                    <a href="{% url 'mostrar_plano_de_aula' %}">Planos de aulas</a>
+                </li>
+                <hr>
+                {% endif %}
+                {% if perms.auth.ver_plano_de_curso %}
+                <li class="itens">
+                    <a href="{% url 'mostrar_plano_de_curso' %}">Planos de cursos</a>
+                </li>
+                <hr>
+                {% endif %}
+
+                <li class="itens">
+                    <a href="{% url 'sair' %}">Sair</a>
+                </li>
+                <hr>
+        </aside>
+        <div id="menu-conteudo" class="hideSidebar mostrarSidebar">
+            <header>
+                <nav>
+                    <div class="hamburguer-menu" onclick="mostrar_lateral()">
+                        <img width="30px" src="{% static 'img/icones/list.svg' %}" alt="">
+                    </div>
+                    <p>Centro Educacional Ivani Neri Bueno Marques</p>
+                    <div class="fotonav" id="perfil">
+                        {% if user.diretor.foto %}
+                        <img class="fotoperfil" src="{{user.diretor.foto.url}}" alt="foto de perfil">
+                        {% elif user.vicediretor.foto %}
+                        <img class="fotoperfil" src="{{user.vicediretor.foto.url}}" alt="foto de perfil">
+                        {% elif user.coordenador.foto %}
+                        <img class="fotoperfil" src="{{user.coordenador.foto.url}}" alt="foto de perfil">
+                        {% elif user.secretario.foto %}
+                        <img class="fotoperfil" src="{{user.secretario.foto.url}}" alt="foto de perfil">
+                        {% elif user.funcionario.foto %}
+                        <img class="fotoperfil" src="{{user.funcionario.foto.url}}" alt="foto de perfil">
+                        {% elif user.docente.foto %}
+                        <img class="fotoperfil" src="{{user.docente.foto.url}}" alt="foto de perfil">
+                        {% elif user.discente.foto %}
+                        <img class="fotoperfil" src="{{user.discente.foto.url}}" alt="foto de perfil">
+                        {% else %}
+                        <img class="fotoperfil" src="{% static 'img/avatars/comum.jpg' %}" alt="foto de perfil padrão">
+                        {% endif %}
+                    </div>
+                </nav>
+                <div class="sub-menu-wrap" id="subMenu">
+                    <div class="sub-menu">
+                        <div class="info-usuario">
+                            {% if user.diretor.foto %}
+                            <img class="fotoperfil" src="{{user.diretor.foto.url}}" alt="foto de perfil">
+                            <p>{{user.diretor.cargo}}</p>
+                            {% elif user.vicediretor.foto %}
+                            <img class="fotoperfil" src="{{user.vicediretor.foto.url}}" alt="foto de perfil">
+                            <p>{{user.vicediretor.cargo}}</p>
+                            {% elif user.coordenador.foto %}
+                            <img class="fotoperfil" src="{{user.coordenador.foto.url}}" alt="foto de perfil">
+                            <p>{{user.coordenador.cargo}}</p>
+                            {% elif user.secretario.foto %}
+                            <img class="fotoperfil" src="{{user.secretario.foto.url}}" alt="foto de perfil">
+                            <p>{{user.secretario.cargo}}</p>
+                            {% elif user.funcionario.foto %}
+                            <img class="fotoperfil" src="{{user.funcionario.foto.url}}" alt="foto de perfil">
+                            <p>{{user.funcionario.cargo}}</p>
+                            {% elif user.docente.foto %}
+                            <img class="fotoperfil" src="{{user.docente.foto.url}}" alt="foto de perfil">
+                            <p>{{user.docente.cargo}}</p>
+                            {% elif user.discente.foto %}
+                            <img class="fotoperfil" src="{{user.discente.foto.url}}" alt="foto de perfil">
+                            <p>{{user.discente.cargo}}</p>
+                            {% else %}
+                            <img class="fotoperfil" src="{% static 'img/avatars/comum.jpg' %}"
+                                alt="foto de perfil padrão">
+                            {% endif %}
+                            <p>{{user.first_name}}</p>
+                        </div>
+                        <hr>
+                        {% if perms.auth.modificar_perfil %}
+                        <a href="#">Modificar perfil</a>
+                        <hr>
+                        {% endif %}
+                        <a href="{% url 'sair' %}">Sair</a>
+                    </div>
+                </div>
+            </header>
+            <section>
+                {% block section %}{% endblock %}
+            </section>
+            <footer>
+                <p>©
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script>
+                    Centro Educacional Ivani Neri Bueno Marques
+                </p>
+            </footer>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    {% block javascript %}{% endblock %}
+    <script rel="stylesheet" src="{% static 'js/principal.js' %}"></script>
+</body>
+
+</html>

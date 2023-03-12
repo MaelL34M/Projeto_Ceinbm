@@ -1,0 +1,71 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}Funcionários{% endblock %}
+{% block section %}
+{% bootstrap_messages message %}
+<h1>Funcionários</h1>
+<form>
+    <div>
+        <input class="form-control-sm" type="text" name="procurar" id="procurar" placeholder="Procurar" value="{{request.GET.procurar}}">
+        <button class="btn btn-primary" type="submit">Procurar</button>
+    </div>
+</form>
+<div class="todos-usuarios">
+    {% if funcionarios %}
+    {% for funcionario in funcionarios %}
+    <a href="{% url 'detalhes_funcionario' funcionario.id %}">
+        <div class="usuarios">
+            {% if funcionario.foto %}
+            <img class="foto-usuario" src="{{funcionario.foto.url}}" alt="Foto do funcionario">
+            {% else %}
+            <img class="foto-usuario" src="{% static 'img/avatars/comum.jpg' %}" alt="Foto do usuario padrão">
+            {% endif %}
+            <p>{{funcionario.user.first_name}}<br>{{funcionario.cargo}}</p>
+        </div>
+    </a>
+    {% endfor %}
+    {% else %}
+    <p>Nada cadastrado</p>
+    {% endif %}
+    
+</div>
+<div>
+    <nav>
+        <ul class="pagination">
+            {% if funcionarios.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'mostrar_funcionario' %}?page={{funcionarios.previous_page_number}}"
+                    tabindex="-1">Anterior</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Anterior</a>
+            </li>
+            {% endif %}
+            {% for num in funcionarios.paginator.page_range %}
+            {% if num == funcionarios.number %}
+            <li class="page-item active"><a class="page-link" href="#}">{{num}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="{% url 'mostrar_funcionario' %}?page={{num}}">{{num}}</a></li>
+            {% endif %}
+
+            {% endfor %}
+
+            {% if funcionarios.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'mostrar_funcionario' %}?page={{funcionarios.next_page_number}}"
+                    tabindex="-1">Próximo</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Próximo</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% if perms.auth.modificar_funcionario %}
+    <a class="btn btn-primary" href="{% url 'cad_funcionario' %}"> Cadastrar novo funcionário</a>
+{% endif %}
+{% endblock %}

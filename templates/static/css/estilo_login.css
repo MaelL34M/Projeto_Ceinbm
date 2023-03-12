@@ -1,0 +1,44 @@
+#entrar {
+    color: white;
+    min-width: 80%;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(11, 83, 178);
+}
+
+#entrar:hover {
+
+    background-color: rgb(13, 63, 128);
+}
+#menu-login {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#login {
+    color: white;
+    border-radius: 30px;
+    text-align: center;
+    padding: 10px;
+    background-color: rgb(43, 130, 243);
+}
+
+#login * {
+    margin-bottom: 10px;
+}
+
+#login input {
+    border: none;
+    text-align: center;
+    min-width: 300px;
+    min-height: 30px;
+    border-radius: 10px;
+}
+#logo {
+    min-width: 50px;
+    max-width: 300px;
+    width: 15vw;
+}

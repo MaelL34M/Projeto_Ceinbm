@@ -1,0 +1,194 @@
+{% extends 'baseoficial.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block titulo %}{{discente.user.first_name}}{% endblock %}
+{% block section %}
+{% bootstrap_messages message %}
+
+<div class="d-flex flex-wrap">
+    <div>
+        <div>
+            {% if discente.foto %}
+            <img id="mostrarfoto" src="{{discente.foto.url}}" alt="Foto do discente">
+            {% else %}
+            <img id="mostrarfoto" src="{% static 'img/avatars/comum.jpg' %}" alt="Foto de usuario padrão">
+            {% endif %}
+        </div>
+    </div>
+    <div id="informacoes">
+        <div>
+            <strong>Dados do discente:</strong>
+            <p>Nome completo: {{discente.user.get_full_name}}</p>
+            <hr>
+            <p>CPF: {{discente.cpf}}</p>
+            <hr>
+            <p>RG: {{discente.rg}}</p>
+            <hr>
+            <p>Email: {{discente.user.email}}</p>
+            <hr>
+            <p>Endereço: {{discente.endereco}}</p>
+            <hr>
+            <p>NIS: {{discente.nis}}</p>
+            <hr>
+            <p>Turma: {{discente.turma.nome}}</p>
+            <hr>
+            <p>
+                Situação geral: {% if discente.situacao == 'Aprovado' %}
+                <span class="status status-success">{{discente.situacao}}</span>
+                {% elif discente.situacao == 'Aprovado pelo Conselho' %}
+                <span class="status status-success">{{discente.situacao}}</span>
+                {% elif discente.situacao == 'Reprovado pelo Conselho' %}
+                <span class="status status-danger">{{discente.situacao}}</span>
+                {% elif discente.situacao == 'Reprovado' %}
+                <span class="status status-danger">{{discente.situacao}}</span>
+                {% elif discente.situacao == 'Reprovado por falta' %}
+                <span class="status status-danger">{{discente.situacao}}</span>
+                {% elif discente.situacao == 'Prova Final' %}
+                <span class="status status-warning">{{discente.situacao}}</span>
+                {% else %}
+                <span class="status status-primary">{{discente.situacao}}</span>
+                {% endif %}
+            </p>
+            <hr>
+            <p>Pessoa com deficiência: 
+                {% if discente.pcd %}
+                <span class="status status-danger">Sim</span>
+                {% else %}
+                <span class="status status-success" >Não</span>
+                {% endif %}
+            </p>
+            <hr>
+            <p>Possui restrição alimentar: 
+                {% if discente.rest_alimentar %}
+                <span class="status status-danger">Sim</span>
+                {% else %}
+                <span class="status status-success" >Não</span>
+                {% endif %}
+            </p>
+            <hr>
+            <p>Usa medicamentos: 
+                {% if discente.usa_medicamentos %}
+                <span class="status status-danger">Sim</span>
+                {% else %}
+                <span class="status status-success" >Não</span>
+                {% endif %}
+            </p>
+        </div>
+
+        <div>
+            <strong>Dados dos responsavéis:</strong>
+            <p>Nome do responsavel: {{discente.nome_responsavel}}</p>
+            <hr>
+            <p>Telefone: {{discente.telefone1}}</p>
+            <hr>
+            <p>Nome do segundo responsavel: {{discente.segundo_responsavel}}</p>
+            <hr>
+            <p>Telefone: {{discente.telefone2}}</p>
+            <hr>
+            <p>Pais separados: 
+                {% if discente.pais_separados %}
+                <span class="status status-danger">Sim</span>
+                {% else %}
+                <span class="status status-success" >Não</span>
+                {% endif %}
+            </p>
+            <hr>
+        </div>
+    </div>
+
+</div>
+{% if perms.auth.modificar_discente %}
+<div>
+    <a class="btn btn-info" href="{% url 'edt_discente' discente.id %}">Editar dados</a>
+    {% if perms.auth.apagar_discente %}
+    <a class="btn btn-danger" href="{% url 'del_discente' discente.id %}">Apagar Discente</a>
+    {% endif %}
+</div>
+{% endif %}
+<hr>
+{% if perms.auth.situacao_discentes %}
+        <p>Para verificar a situação do discente clique no botão abaixo.</p>
+        <p>Disponível apenas no final do ano letivo.</p>
+        <a class="btn btn-info" href="{% url 'situacao_discente' discente.id %}">Conclusão final de ano</a>
+        <hr>
+        {% endif %}
+<div>
+    {% if discente.pcd %}
+    <strong>Detalhes da deficiência do discente:</strong>
+    {{discente.pcd_detalhes}}
+    <hr>
+    {% endif %}
+
+    {% if discente.rest_alimentar %}
+    <strong>Detalhes da restrição alimentar do discente:</strong>
+    {{discente.rest_alimentar_detalhes}}
+    <hr>
+    {% endif %}
+
+    {% if discente.usa_medicamentos %}
+    <strong>Detalhes dos medicamentos do discente:</strong>
+    {{discente.usa_medicamentos_detalhes}}
+    <hr>
+    {% endif %}
+    <strong>Observações:</strong>
+    <p>{{discente.obs}}</p>
+</div>
+<hr>
+<div>
+    <strong>Notas:</strong>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Disciplina</th>
+                <th>I</th>
+                <th>II</th>
+                <th>III</th>
+                <th>Média</th>
+                <th>Faltas</th>
+                <th>Situação</th>
+                {% if perms.auth.modificar_notas %}
+                <th>Editar</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for nota in notas %}
+            <tr>
+                <td>{{nota.disciplina.nome}}</td>
+                <td>{{nota.nota1}}</td>
+                <td>{{nota.nota2}}</td>
+                <td>{{nota.nota3}}</td>
+                <td>{{nota.media}}</td>
+                <td>{{nota.faltas}}</td>
+                {% if nota.situacao == 'Aprovado' %}
+                <td>
+                    <p class="status status-success">{{nota.situacao}}</p>
+                </td>
+                {% elif nota.situacao == 'Reprovado' %}
+                <td>
+                    <p class="status status-danger">{{nota.situacao}}</p>
+                </td>
+                {% elif nota.situacao == 'Reprovado por falta' %}
+                <td>
+                    <p class="status status-danger">{{nota.situacao}}</p>
+                </td>
+                {% elif nota.situacao == 'Prova Final' %}
+                <td>
+                    <p class="status status-warning">{{nota.situacao}}</p>
+                </td>
+                {% else %}
+                <td>
+                    <p class="status status-primary">{{nota.situacao}}</p>
+                </td>
+                {% endif %}
+                {% if perms.auth.modificar_notas %}
+                <td><a class="btn btn-secondary"
+                        href="{% url 'edt_nota_discente' nota.disciplina.id nota.discente.id %}">Editar</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

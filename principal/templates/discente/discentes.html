@@ -1,0 +1,72 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}Discentes{% endblock %}
+{% block section %}
+{% bootstrap_messages message %}
+<h1>Discentes</h1>
+<form>
+    <div>
+        <input class="form-control-sm" type="text" name="procurar" id="procurar" placeholder="Procurar" value="{{request.GET.procurar}}">
+        <button class="btn btn-primary" type="submit">Procurar</button>
+    </div>
+</form>
+<div class="todos-usuarios">
+    {% if discentes %}
+    {% for discente in discentes %}
+    <a href="{% url 'detalhes_discente' discente.id %}">
+        <div class="usuarios">
+            {% if discente.foto %}
+            <img class="foto-usuario" src="{{discente.foto.url}}" alt="Foto do discente">
+            {% else %}
+            <img class="foto-usuario" src="{% static 'img/avatars/comum.jpg' %}" alt="Foto do usuario padrão">
+            {% endif %}
+            <p>{{discente.user.first_name}}<br>{{discente.turma.nome}}</p>
+        </div>
+    </a>
+    {% endfor %}
+    {% else %}
+    <p>Nada cadastrado</p>
+    {% endif %}
+
+</div>
+<div>
+    <nav>
+        <ul class="pagination">
+            {% if discentes.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'mostrar_discente' %}?page={{discentes.previous_page_number}}"
+                    tabindex="-1">Anterior</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Anterior</a>
+            </li>
+            {% endif %}
+            {% for num in discentes.paginator.page_range %}
+            {% if num == discentes.number %}
+            <li class="page-item active"><a class="page-link" href="#}">{{num}}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="{% url 'mostrar_discente' %}?page={{num}}">{{num}}</a></li>
+            {% endif %}
+
+            {% endfor %}
+
+            {% if discentes.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'mostrar_discente' %}?page={{discentes.next_page_number}}"
+                    tabindex="-1">Próximo</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1">Próximo</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% if perms.auth.modificar_discente %}
+<a class="btn btn-primary" href="{% url 'cad_discente' %}"> Cadastrar novo discente</a>
+{% endif %}
+{% endblock %}

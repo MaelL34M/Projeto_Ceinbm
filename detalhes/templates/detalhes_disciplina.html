@@ -1,0 +1,49 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+{{disciplina.nome}}
+{% endblock %}
+{% block section %}
+<h1>Componente Curricular: {{disciplina.nome}}</h1>
+{% bootstrap_messages message %}
+<div>
+    <div>
+        <div id="informacoes">
+            <div>
+                <strong>Dados:</strong>
+                <p>Nome: {{disciplina.nome}}</p>
+                <hr>
+                <p>Carga Horária: {{disciplina.carga_horaria}}</p>
+                <hr>
+            </div>
+        </div>
+        {% if perms.auth.modificar_disciplina %}
+        <div>
+            <a class="btn btn-info" href="{% url 'edt_disciplina' disciplina.id %}">Editar dados</a>
+            {% if perms.auth.apagar_disciplina %}
+            <a class="btn btn-danger" href="{% url 'del_disciplina' disciplina.id %}">Apagar</a>
+            {% endif %}
+        </div>
+        {% endif %}
+        <div>
+            <strong>Docentes que atuam nessa disciplina:</strong>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Docente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for docente in docentes %}
+                    <tr>
+                        <td><a href="{% url 'detalhes_docente' docente.id %}">{{docente.nome}}</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+    
+    {% endblock %}

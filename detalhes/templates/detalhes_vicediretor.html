@@ -1,0 +1,46 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+{{vicediretor.user.first_name}}
+{% endblock %}
+{% block section %}
+<h1>Vice-diretor(a)</h1>
+{% bootstrap_messages message %}
+<div class="d-flex flex-wrap">
+    <div>
+        <div>
+            {% if vicediretor.foto %}
+            <img id="mostrarfoto" src="{{vicediretor.foto.url}}" alt="Foto do vicediretor">
+            {% else %}
+            <img id="mostrarfoto" src="{% static 'img/avatars/comum.jpg' %}" alt="Foto de usuario padrão">
+            {% endif %}
+        </div>
+    </div>
+    <div id="informacoes">
+        <div>
+            <strong>Dados:</strong>
+            <p>Nome completo: {{vicediretor.user.get_full_name}}</p>
+            <hr>
+            <p>CPF: {{vicediretor.cpf}}</p>
+            <hr>
+            <p>RG: {{vicediretor.rg}}</p>
+            <hr>
+            <p>Email: {{vicediretor.user.email}}</p>
+            <hr>
+            <p>Data de nascimento: {{vicediretor.data_de_nascimento}}</p>
+            <hr>
+        </div>
+    </div>
+
+</div>
+<br>
+{% if perms.auth.modificar_vicediretor %}
+<div>
+    <a class="btn btn-info" href="{% url 'edt_vicediretor' vicediretor.id %}">Editar dados</a>
+    {% if perms.auth.apagar_vicediretor %}
+    <a class="btn btn-danger" href="{% url 'del_vicediretor' vicediretor.id %}">Apagar</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

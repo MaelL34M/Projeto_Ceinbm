@@ -1,0 +1,34 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+{{turma.nome}}
+{% endblock %}
+{% block section %}
+<h1>Turma: {{turma.nome}}</h1>
+{% bootstrap_messages message %}
+<div>
+    <div>
+        <div>
+            <strong>Chamadas:</strong>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Data da chamada</th>
+                        <th>Componente Curricular<th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for chamada in chamadas %}
+                    <tr>
+                        <td><a href="{% url 'detalhes_chamada' chamada.id %}">{{chamada.data_da_chamada}}</a></td>
+                        <td>{{chamada.disciplina.nome}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
+
+    {% endblock %}

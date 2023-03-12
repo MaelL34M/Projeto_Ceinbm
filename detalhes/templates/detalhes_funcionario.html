@@ -1,0 +1,48 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+{{funcionario.user.first_name}}
+{% endblock %}
+{% block section %}
+<h1>Funcionário(a)</h1>
+{% bootstrap_messages message %}
+<div class="d-flex flex-wrap">
+    <div>
+        <div>
+            {% if funcionario.foto %}
+            <img id="mostrarfoto" src="{{funcionario.foto.url}}" alt="Foto do funcionario">
+            {% else %}
+            <img id="mostrarfoto" src="{% static 'img/avatars/comum.jpg' %}" alt="Foto de usuario padrão">
+            {% endif %}
+        </div>
+    </div>
+    <div id="informacoes">
+        <div>
+            <strong>Dados:</strong>
+            <p>Nome completo: {{funcionario.user.get_full_name}}</p>
+            <hr>
+            <p>CPF: {{funcionario.cpf}}</p>
+            <hr>
+            <p>RG: {{funcionario.rg}}</p>
+            <hr>
+            <p>Email: {{funcionario.user.email}}</p>
+            <hr>
+            <p>Data de nascimento: {{funcionario.data_de_nascimento}}</p>
+            <hr>
+            <p>Cargo: {{funcionario.cargo}}</p>
+            <hr>
+        </div>
+    </div>
+
+</div>
+<br>
+{% if perms.auth.modificar_funcionario %}
+<div>
+    <a class="btn btn-info" href="{% url 'edt_funcionario' funcionario.id %}">Editar dados</a>
+    {% if perms.auth.apagar_funcionario %}
+    <a class="btn btn-danger" href="{% url 'del_funcionario' funcionario.id %}">Apagar</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

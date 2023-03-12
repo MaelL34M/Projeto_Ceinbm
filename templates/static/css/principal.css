@@ -1,0 +1,306 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/*****************************************/
+
+a:hover {
+    text-decoration: none;
+}
+
+aside {
+    text-align: center;
+    color: white;
+    background-color: rgb(43, 130, 243);
+    overflow: hidden;
+}
+
+aside a {
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+aside a .icone {
+    width: 20px;
+}
+
+aside a:hover {
+    color: rgb(30, 87, 160);
+    text-decoration: none;
+}
+
+aside.abrir {
+    min-width: 100px;
+    max-width: 15vw;
+    transition: min-width 2s;
+}
+
+aside.fechar {
+    min-width: 0px;
+    transition: max-width 1s;
+}
+
+aside li {
+    list-style: none;
+}
+
+aside li div {
+    background-color: rgb(105, 162, 237);
+    border-radius: 5px;
+}
+
+aside p {
+    cursor: pointer;
+}
+
+aside ul {
+    text-align: left;
+    padding: 10px;
+}
+
+body {
+    background-color: rgb(240, 240, 240);
+    min-width: 300px;
+}
+
+footer {
+    text-align: center;
+    min-height: 10vh;
+}
+
+header {
+    min-height: 10vh;
+    background-color: rgb(223, 221, 221);
+    border-radius: 7px;
+}
+
+header nav {
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+li {
+    list-style-type: none;
+}
+
+section {
+    min-height: 80vh;
+    padding: 10px;
+}
+
+/*****************************************/
+#abrir-menu {
+    cursor: pointer;
+}
+
+
+
+#informacoes {
+    width: 75%;
+    padding: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+
+#menuCadastrados {
+    background-color: #7cb3fb;
+    text-align: center;
+    border-radius: 15px;
+}
+#menuCadastrados.aberto {
+    max-height: 500px !important;
+}
+#menuCadastrados.fechado {
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 1s;
+}
+
+#menu-conteudo {
+    padding: 10px;
+}
+
+#menu-conteudo.hideSidebar {
+    min-width: 100%;
+    transition: min-width 1s;
+}
+
+#menu-conteudo.mostrarSidebar {
+    min-width: 82vw;
+    max-width: 86vw;
+}
+
+#menu-principal {
+    display: flex;
+    justify-content: space-between;
+}
+
+#mostrarfoto {
+    min-width: 200px;
+    max-width: 200px;
+    border-radius: 5px;
+}
+
+/*****************************************/
+
+
+.ativo {
+    display: block;
+}
+
+.fotonav {
+    max-width: 3em;
+    max-height: 3em;
+    cursor: pointer;
+}
+
+.fotoperfil {
+    max-width: 3em;
+    max-height: 3em;
+    border-radius: 50%;
+}
+
+.foto-usuario {
+    max-width: 60px;
+    max-height: 60px;
+    border-radius: 5px;
+}
+
+.fundodetalhes {
+    background-color: rgb(85, 162, 240);
+}
+
+.logoSidebar {
+    width: 50%;
+}
+
+.hamburguer-menu {
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+    border-radius: 50%;
+    position: relative;
+}
+
+.info-usuario {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.itens {
+    margin-top: 0px;
+}
+
+.naoativo {
+    display: none;
+}
+
+.todos-usuarios {
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.todos-usuarios a {
+    color: white;
+}
+
+.todos-usuarios a:hover {
+    color: white;
+    text-decoration: none;
+}
+
+.usuarios {
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    min-width: 200px;
+    width: 250px;
+    height: 100px;
+    background-color: #4797FF;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.usuarios:hover {
+    background-color: rgb(72, 144, 237);
+}
+
+.status {
+    border: 1px solid black;
+    border-radius: 7px;
+    color: black;
+    text-align: center;
+    padding: 5px;
+}
+
+.status-danger {
+    border: 1px solid rgba(255, 0, 0, 0.5);
+    background-color: rgba(255, 0, 0, 0.5);
+    color: white;
+}
+
+.status-warning {
+    border: 1px solid rgba(255, 179, 0, 0.7);
+    background-color: rgba(255, 179, 0, 0.7);
+    color: white;
+}
+
+.status-success {
+    border: 1px solid rgba(0, 128, 0, 0.7);
+    background-color: rgba(0, 128, 0, 0.7);
+    color: white;
+}
+
+.status-primary {
+    border: 1px solid rgba(71, 151, 255, 0.5);
+    ;
+    background-color: rgba(71, 151, 255, 0.7);
+    color: white;
+}
+
+.sub-menu {
+    background-color: rgb(234, 233, 233);
+    border-radius: 10px;
+    padding: 10px;
+}
+.sub-menu a{
+    color: black;
+}
+.sub-menu a:hover{
+    text-decoration: none;
+}
+
+.sub-menu-wrap {
+    position: absolute;
+    top: 12%;
+    right: 2%;
+    width: 200px;
+    max-height: 0px;
+    overflow: hidden;
+    transition: max-height 1s;
+}
+
+.sub-menu-wrap.aberto {
+    max-height: 400px;
+}
+
+/****************************************/

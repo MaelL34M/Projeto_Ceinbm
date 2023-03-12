@@ -1,0 +1,42 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+Detalhes
+{% endblock %}
+{% block section %}
+<h1>Planejamento anual de {{planejamento.docente.nome}} </h1>
+{% bootstrap_messages message %}
+<div>
+    <div>
+        <div>
+            <strong>Dados:</strong>
+            <p>Planejamento: {{planejamento.data_do_planejamento}}</p>
+            <hr>
+            <p>Trimestre: {{planejamento.trimestre}}</p>
+            <hr>
+            <p>Unidades Temáticas: {{planejamento.unidades_tematicas}}</p>
+            <hr>
+            <p>Habilidades: {{planejamento.habilidades}}</p>
+            <hr>
+            <p>Objetos de cohecimento: {{planejamento.objetos_de_conhecimento}}</p>
+            <hr>
+            <p></p>
+            <hr>
+            <p></p>
+            <hr>
+            <p></p>
+            <hr>
+            <p></p>
+            <hr>
+        </div>
+        {% if perms.auth.fazer_planejamento_anual %}
+        <div>
+            <a class="btn btn-info" href="{% url 'edt_planejamento' planejamento.id %}">Editar dados</a>
+            <a class="btn btn-danger" href="{% url 'del_planejamento_anual' planejamento.id %}">Apagar</a>
+        </div>
+        {% endif %}
+    </div>
+    <br>
+   
+    {% endblock %}

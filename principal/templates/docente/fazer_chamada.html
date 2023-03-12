@@ -1,0 +1,48 @@
+{% extends 'baseoficial.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block titulo %}
+{{turma.nome}}
+{% endblock %}
+{% block section %}
+<h1>Turma: {{turma.nome}}</h1>
+{% bootstrap_messages message %}
+<div>
+    <div>
+        <div>
+            <strong>Dados:</strong>
+            <p>Quantidade de discentes nessa turma: {{num_discentes}}</p>
+        </div>
+        <div>
+            <strong>Selecione a disciplina que deseja fazer a chamada:</strong><br>
+            <form action="{% url 'fazer_chamada' turma.id %}" method="post">{% csrf_token %}
+            {% for disciplina in disciplinas %}
+            <label for="disciplina">{{disciplina.nome}}</label>
+            <input type="checkbox" name="disciplina" value="{{disciplina.id}}">
+            {% endfor %}
+            <br>
+            <strong>Discentes:</strong>
+            
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nome do Discente</th>
+                        <th>Digite a quantidade de faltas da aula</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for discente in discentes %}
+                    <tr>
+                        <td><a href="{% url 'detalhes_discente' discente.id %}">{{discente.nome}}</a></td>
+                        <td><input class="form-control" type="number" name="falta" value="0" required min="0" max="5"></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn btn-info" type="submit">Salvar faltas</button>
+        </form>
+        </div>
+    </div>
+    <br>
+
+    {% endblock %}
